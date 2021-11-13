@@ -1,7 +1,5 @@
 package com.hoovereats.messaging;
 
-
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 import com.hoovereats.messaging.models.Conversation;
@@ -9,6 +7,8 @@ import com.hoovereats.messaging.models.ConversationRepository;
 import com.hoovereats.messaging.models.Message;
 import com.hoovereats.messaging.models.MessageRepository;
 import com.hoovereats.messaging.responses.ConversationResponse;
+import com.hoovereats.profile.User;
+import com.hoovereats.profile.UserRepository;
 import com.hoovereats.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,16 +28,17 @@ import java.util.List;
 public class MessagingController {
 	@Autowired private ConversationRepository conversationRepository;
 	@Autowired private MessageRepository messageRepository;
+	@Autowired private UserRepository userRepository;
 	@Autowired private SimpMessagingTemplate messagingTemplate;
 
 	@MessageMapping("/chat")
 	public void processMessage(@Payload Message message) throws FirebaseAuthException {
 		Conversation conversation = conversationRepository.findConversationId(message.getSenderUid(), message.getRecipientUid());
 		if (conversation == null) {
-			String senderPhotoUrl = FirebaseAuth.getInstance().getUser(message.getSenderUid()).getPhotoUrl();
-			String recipientPhotoUrl = FirebaseAuth.getInstance().getUser(message.getRecipientUid()).getPhotoUrl();
-			conversation = new Conversation(message.getSenderUid(), message.getSenderName(), senderPhotoUrl,
-											message.getRecipientUid(), message.getRecipientName(), recipientPhotoUrl);
+			User sender = userRepository.findUserByUId(message.getSenderUid());
+			User recipient = userRepository.findUserByUId(message.getRecipientUid());
+			conversation = new Conversation(message.getSenderUid(), sender.getName(), sender.getPhotoUrl(),
+											message.getRecipientUid(), recipient.getName(), recipient.getPhotoUrl());
 			Conversation savedConversation = conversationRepository.save(conversation);
 		}
 		Integer conversationId = conversation.getId();

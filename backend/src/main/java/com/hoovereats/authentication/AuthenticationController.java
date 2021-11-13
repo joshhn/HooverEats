@@ -29,10 +29,14 @@ public class AuthenticationController {
 				String email = userRecord.getEmail();
 				String defaultUsername = email.substring(0, email.indexOf('@'));
 				if (email.contains("_")) {
-					int gradYear = Integer.parseInt(email.substring(email.indexOf('_') + 1, email.indexOf('@')));
-					user = new User(uid, userRecord.getDisplayName(), defaultUsername, userRecord.getEmail(), "student", Swipe.NEITHER,  gradYear, null);
+					Integer gradYear = Integer.parseInt(email.substring(email.indexOf('_') + 1, email.indexOf('@')));
+					user = new User(uid, userRecord.getDisplayName(), defaultUsername, userRecord.getEmail(),
+							userRecord.getPhotoUrl(), Swipe.NEITHER, gradYear, null, null,
+							null, null, null);
 				} else {
-					user = new User(uid, userRecord.getDisplayName(), defaultUsername, userRecord.getEmail(), "faculty", Swipe.NEITHER, null, null);
+					user = new User(uid, userRecord.getDisplayName(), defaultUsername, userRecord.getEmail(),
+							userRecord.getPhotoUrl(), Swipe.NEITHER, -1, null, null,
+							null, null, null);
 				}
 				userRepository.save(user);
 				logger.info("New User Created " + user);

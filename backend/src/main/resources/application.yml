@@ -9,10 +9,13 @@ spring:
       ddl-auto: update
 
 server:
-  ssl:
-    key-store: classpath:springboot.p12
-    key-store-password: password
-    key-store-type: pkcs12
-    key-alias: springboot
-    key-password: password
+  #  ssl:
+#    key-store: classpath:springboot.p12
+#    key-store-password: password
+#    key-store-type: pkcs12
+#    key-alias: springboot
+#    key-alias: springboot
+#    key-password: password
   port: 5000
+  servlet:
+    context-path: /api
