@@ -66,6 +66,16 @@ button:hover {
   box-shadow: 5px 10px 30px rgba(198, 184, 64, 0.411);
 }
 
+.profile__preferences__title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.profile__preferences__title p {
+  margin-left: 0.2rem;
+}
+
 .profile__update {
   display: flex;
 }
