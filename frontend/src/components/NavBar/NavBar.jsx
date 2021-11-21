@@ -63,7 +63,16 @@ export default function NavBar({ info }) {
               My Profile
             </Link>
           </li>
-        )}
+        )}{info && (
+        <li>
+          <Link
+            className={`${path === "matching" ? styles.current_path : ""}`}
+            to="/matching"
+          >
+            Matching
+          </Link>
+        </li>
+      )}
         {info && (
           <li>
             <Link

@@ -14,6 +14,7 @@ import Contact from "./pages/Contact/Contact";
 import Profile from "./pages/Profile/Profile";
 import NavBar from "./components/NavBar/NavBar";
 import Chat from "./pages/Chat/Chat";
+import Matching from "./pages/Matching/Matching";
 import { postAuthInfo } from "./utils";
 
 function App() {
@@ -56,6 +57,10 @@ function App() {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+
+          <Route exact path="/matching">
+            <Matching />
           </Route>
 
           <Route path="/login">
